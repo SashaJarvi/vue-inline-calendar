@@ -57,6 +57,22 @@ import TheObserver from "./TheObserver.vue";
 export default {
   name: "VueInlineCalendar",
   props: {
+    selectedDate: {
+      type: Date,
+      default: null,
+    },
+    selectedRange: {
+      type: Object,
+      default: null,
+      validator: value => {
+        return (
+          Object.prototype.hasOwnProperty.call(value, "startDate") &&
+          Object.prototype.hasOwnProperty.call(value, "endDate") &&
+          value.startDate instanceof Date &&
+          value.endDate instanceof Date
+        );
+      },
+    },
     daysRange: {
       type: Number,
       default: 7,
@@ -118,7 +134,7 @@ export default {
       default: false,
     },
   },
-  emits: ["select-date", "select-dates-range"],
+  emits: ["update:selectedDate", "update:selectedRange"],
   components: {
     TheObserver,
   },
@@ -129,14 +145,14 @@ export default {
     const root = ref(null);
     const datesWrapper = ref(null);
 
+    const activeDate = ref(props.selectedDate);
     const dates = ref([]);
     const canSelectDate = ref(true);
-    const selectedDate = ref(null);
     const minDate = ref(null);
     const maxDate = ref(null);
     const datesRange = reactive({
-      startDate: null,
-      endDate: null,
+      startDate: props.selectedRange?.startDate || null,
+      endDate: props.selectedRange?.endDate || null,
     });
     const showFirstObserver = ref(true);
     const showLastObserver = ref(true);
@@ -169,7 +185,7 @@ export default {
           isToday: checkSameDay(date, new Date()),
           isWeekend: checkIsWeekend(date),
           isActive:
-            (selectedDate.value && checkSameDay(date, selectedDate.value)) ||
+            (activeDate.value && checkSameDay(date, activeDate.value)) ||
             (datesRange.startDate && checkSameDay(date, datesRange.startDate)) ||
             (datesRange.endDate && checkSameDay(date, datesRange.endDate)),
           ...(props.isRange && {
@@ -307,8 +323,8 @@ export default {
         return false;
       }
 
-      selectedDate.value = date;
-      emit("select-date", date);
+      activeDate.value = date;
+      emit("update:selectedDate", date);
     };
 
     const setStartDate = date => {
@@ -336,7 +352,7 @@ export default {
         [datesRange.startDate, datesRange.endDate] = [datesRange.endDate, datesRange.startDate];
       }
 
-      emit("select-dates-range", datesRange);
+      emit("update:selectedRange", datesRange);
     };
 
     const enableDateSelection = () => {
@@ -358,16 +374,28 @@ export default {
     };
 
     const validateMinMaxDates = () => {
-      if (minDate.value > maxDate.value || maxDate.value < minDate.value) {
+      if (minDate.value > maxDate.value) {
         console.error("Invalid props");
       }
       return true;
+    };
+
+    const validateInitialValues = () => {
+      if (props.isRange && props.selectedDate?.value) {
+        console.error("You should use initialRange property with isRange");
+        return;
+      }
+
+      if (!props.isRange && props.selectedRange?.startDate && props.selectedRange?.endDate) {
+        console.error("You should use initialDate property with default mode");
+      }
     };
 
     watch(
       props,
       () => {
         validateMinMaxDates();
+        validateInitialValues();
       },
       { immediate: true }
     );
@@ -383,7 +411,9 @@ export default {
     return {
       root,
       datesWrapper,
+      activeDate,
       dates,
+      datesRange,
       minDate,
       maxDate,
       canSelectDate,
@@ -436,12 +466,6 @@ export default {
     -webkit-user-select: none;
     user-select: none;
 
-    &.active {
-      color: #fff;
-      border-color: #0094ff !important;
-      background-color: #0094ff !important;
-    }
-
     &.today {
       color: #fff;
       border-color: rgba(96, 112, 128, 0.8);
@@ -452,6 +476,12 @@ export default {
       color: #fff;
       border-color: rgba(#0094ff, 0.6) !important;
       background-color: rgba(#0094ff, 0.6) !important;
+    }
+
+    &.active {
+      color: #fff;
+      border-color: #0094ff !important;
+      background-color: #0094ff !important;
     }
 
     &.disabled {
