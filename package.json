@@ -1,20 +1,20 @@
 {
   "name": "vue-inline-calendar",
   "version": "1.0.0",
-  "main": "./dist/vue-inline-calendar.umd.js",
-  "module": "./dist/vue-inline-calendar.es.js",
+  "main": "./dist/vue-inline-calendar.umd.cjs",
+  "module": "./dist/vue-inline-calendar.js",
   "type": "module",
   "files": [
-    "dist/*.js",
-    "dist/style.css"
+    "dist"
   ],
   "author": "Sasha Jarvi",
   "description": "The simple, functional inline calendar component for Vue3 based on Intersection Observer API — just drag and scroll to get future and past dates.",
   "exports": {
     ".": {
-      "import": "./dist/vue-inline-calendar.es.js",
-      "require": "./dist/vue-inline-calendar.umd.js"
-    }
+      "import": "./dist/vue-inline-calendar.js",
+      "require": "./dist/vue-inline-calendar.umd.cjs"
+    },
+    "./dist/style.css": "./dist/style.css"
   },
   "private": false,
   "scripts": {

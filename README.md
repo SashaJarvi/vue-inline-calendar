@@ -16,7 +16,7 @@ or
 ```
 <template>
     <div id="app">
-        <vue-inline-calendar @update:select-date="selectedDate = $event" />
+        <vue-inline-calendar @update:selected-date="selectedDate = $event" />
     </div>
 </template>
 
@@ -42,7 +42,7 @@ export default {
 ```
 <template>
     <div id="app">
-        <vue-inline-calendar @update:select-date="selectedDate = $event" />
+        <vue-inline-calendar @update:selected-date="selectedDate = $event" />
     </div>
 </template>
 
