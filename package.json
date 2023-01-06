@@ -1,10 +1,26 @@
 {
   "name": "vue-inline-calendar",
   "version": "1.0.0",
+  "main": "./dist/vue-inline-calendar.umd.cjs",
+  "module": "./dist/vue-inline-calendar.es.js",
+  "type": "module",
+  "files": [
+    "dist/*.js",
+    "dist/style.css"
+  ],
+  "author": "Sasha Jarvi",
+  "description": "The simple, functional inline calendar component for Vue3 based on Intersection Observer API — just drag and scroll to get future and past dates.",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-inline-calendar.es.js",
+      "require": "./dist/vue-inline-calendar.umd.cjs"
+    }
+  },
   "private": false,
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build:gh": "vite build",
+    "build:lib": "vite build -c vite.lib-config.js",
     "preview": "vite preview",
     "test:unit": "vitest --environment jsdom --root src/",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
@@ -25,5 +41,23 @@
     "sass": "^1.56.1",
     "vite": "^3.2.4",
     "vitest": "^0.25.3"
+  },
+  "bugs": {
+    "url": "https://github.com/SashaJarvi/vue-inline-calendar/issues"
+  },
+  "homepage": "https://sashajarvi.github.io/vue-inline-calendar",
+  "keywords": [
+    "vue",
+    "vue3",
+    "vue-component",
+    "vue component",
+    "calendar-component",
+    "calendar component",
+    "calendar"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SashaJarvi/vue-inline-calendar.git"
   }
 }

@@ -12,16 +12,17 @@ or
 
 ## Usage
 
-
+### Options API
 ```
 <template>
     <div id="app">
-        <vue-inline-calendar @select-date="selectedDate = $event" />
+        <vue-inline-calendar @update:select-date="selectedDate = $event" />
     </div>
 </template>
 
 <script>
-import VueInlineCalendar from 'vue2-inline-calendar'
+import VueInlineCalendar from 'vue-inline-calendar';
+import "vue-inline-calendar/dist/style.css";
 
 export default {
   name: 'App',
@@ -37,9 +38,39 @@ export default {
 </script>
 ```
 
+### Composition API
+```
+<template>
+    <div id="app">
+        <vue-inline-calendar @update:select-date="selectedDate = $event" />
+    </div>
+</template>
+
+<script>
+import { ref } from 'vue;
+import VueInlineCalendar from 'vue-inline-calendar';
+import "vue-inline-calendar/dist/style.css";
+
+export default {
+  name: 'App',
+  components: {
+    VueInlineCalendar
+  },
+  setup() {
+    const selectedDate = ref(null);
+    
+    return {
+        selectedDate
+    }
+}
+</script>
+```
+
 ## Available props
 | Prop name              | Description                                                                              | Type    | Default value |
 |------------------------|------------------------------------------------------------------------------------------|---------|---------------|
+| selectedDate           | Initial selected date                                                                    | Date    | null          |
+| selectedRange          | Initial selected range of dates                                                          | Object  | null          |
 | daysRange              | Number of days, which will be loaded on scroll                                           | Number  | 7             |
 | itemWidth              | Width of date element (`.date-item`)                                                     | Number  | 80            |
 | itemsGap               | Distance between date elements                                                           | Number  | 10            |
@@ -57,10 +88,10 @@ export default {
 | enableMousewheelScroll | Enabling of the calendar scrolling when using the mousewheel                             | Boolean | false         |
 
 ## Available events
-| Event name         | Description                                                | Payload                                                                                                                |
-|--------------------|------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| select-date        | Fires on date selection                                    | Selected date (instance of `Date` object)                                                                              |
-| select-dates-range | Fires on date range selection (when `endDate` is selected) | Object with startDate and endDate keys and dates as values: <br/>`{startDate: this.startDate, endDate: this.endDate }` |
+| Event name            | Description                                                | Payload                                                                                                                |
+|-----------------------|------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| update:selected-date  | Fires on date selection                                    | Selected date (instance of `Date` object)                                                                              |
+| update:selected-range | Fires on date range selection (when `endDate` is selected) | Object with startDate and endDate keys and dates as values: <br/>`{startDate: this.startDate, endDate: this.endDate }` |
 
 ## License
 [MIT](https://github.com/SashaJarvi/vue2-inline-calendar/blob/main/LICENSE) License
