@@ -5,7 +5,7 @@ import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/vue2-inline-calendar/",
+  base: "/vue-inline-calendar/",
   plugins: [vue()],
   resolve: {
     alias: {
