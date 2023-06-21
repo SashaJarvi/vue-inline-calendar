@@ -47,7 +47,7 @@ export default {
 </template>
 
 <script>
-import { ref } from 'vue;
+import { ref } from 'vue';
 import VueInlineCalendar from 'vue-inline-calendar';
 import "vue-inline-calendar/dist/style.css";
 
@@ -62,6 +62,7 @@ export default {
     return {
         selectedDate
     }
+}
 }
 </script>
 ```
